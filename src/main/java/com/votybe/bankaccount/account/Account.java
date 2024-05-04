@@ -1,13 +1,11 @@
 package com.votybe.bankaccount.account;
 
-
+import com.votybe.bankaccount.users.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.votybe.bankaccount.users.User;
-
 
 @Entity
 @Table(name = "accounts")
@@ -16,9 +14,10 @@ import com.votybe.bankaccount.users.User;
 @AllArgsConstructor
 @Builder
 public class Account {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)

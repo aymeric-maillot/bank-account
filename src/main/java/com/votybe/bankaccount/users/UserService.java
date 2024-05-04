@@ -66,4 +66,13 @@ public class UserService {
             throw new EntityNotFoundException("Utilisateur non trouvé avec le nom d'utilisateur : " + username);
         }
     }
+
+    public Account getAccountForUser(String username, Integer accountId) {
+        User user = userRepository.findByUsername(username);
+        if (user != null) {
+            return accountRepository.findSpecificAccountByUserId(user.getId(), accountId);
+        } else {
+            throw new EntityNotFoundException("Utilisateur non trouvé avec le nom d'utilisateur : " + username);
+        }
+    }
 }

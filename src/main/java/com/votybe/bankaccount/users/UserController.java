@@ -66,5 +66,14 @@ public class UserController {
         }
     }
 
+    @GetMapping("/{username}/accounts/{accountId}")
+    public ResponseEntity<Account> getAccountForUser(@PathVariable String username, @PathVariable Integer accountId) {
+        Account account = userService.getAccountForUser(username, accountId);
+        if (account != null) {
+            return ResponseEntity.ok(account);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
 

@@ -1,7 +1,6 @@
 package com.votybe.bankaccount.transactions;
 
-import com.votybe.bankaccount.account.Account;
-import com.votybe.bankaccount.users.User;
+
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -14,17 +13,15 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @Column(name = "from_account_id", nullable = false)
+    private Integer fromAccountId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "account_id", nullable = false)
-    private Account account;
+    @Column(name = "to_account_id", nullable = false)
+    private Integer toAccountId;
 
     @Column(nullable = false)
     private double amount;
 
     @Column(nullable = false)
-    private LocalDateTime transactionTime;
+    private LocalDateTime timestamp;
 }
