@@ -2,6 +2,7 @@ package com.votybe.bankaccount.users;
 
 import com.votybe.bankaccount.account.Account;
 import com.votybe.bankaccount.account.AccountRequest;
+import com.votybe.bankaccount.transactions.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -71,6 +72,16 @@ public class UserController {
         Account account = userService.getAccountForUser(username, accountId);
         if (account != null) {
             return ResponseEntity.ok(account);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/{username}/transactions")
+    public ResponseEntity<List<Transaction>> getTransactionHistoryForUser(@PathVariable String username) {
+        List<Transaction> transactionHistory = userService.getTransactionHistoryForUser(username);
+        if (transactionHistory != null && !transactionHistory.isEmpty()) {
+            return ResponseEntity.ok(transactionHistory);
         } else {
             return ResponseEntity.notFound().build();
         }

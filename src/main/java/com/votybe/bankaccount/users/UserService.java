@@ -4,6 +4,7 @@ import com.votybe.bankaccount.account.Account;
 import com.votybe.bankaccount.account.AccountMapper;
 import com.votybe.bankaccount.account.AccountRepository;
 import com.votybe.bankaccount.account.AccountRequest;
+import com.votybe.bankaccount.transactions.Transaction;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,6 +72,15 @@ public class UserService {
         User user = userRepository.findByUsername(username);
         if (user != null) {
             return accountRepository.findSpecificAccountByUserId(user.getId(), accountId);
+        } else {
+            throw new EntityNotFoundException("Utilisateur non trouvé avec le nom d'utilisateur : " + username);
+        }
+    }
+
+    public List<Transaction> getTransactionHistoryForUser(String username) {
+        User user = userRepository.findByUsername(username);
+        if (user != null) {
+            return user.getTransactionHistory();
         } else {
             throw new EntityNotFoundException("Utilisateur non trouvé avec le nom d'utilisateur : " + username);
         }

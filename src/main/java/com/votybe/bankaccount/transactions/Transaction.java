@@ -1,11 +1,17 @@
 package com.votybe.bankaccount.transactions;
 
-
+import com.votybe.bankaccount.users.User;
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
+@Getter
+@Setter
 @Table(name = "transactions")
 public class Transaction {
 
@@ -22,6 +28,11 @@ public class Transaction {
     @Column(nullable = false)
     private double amount;
 
-    @Column(nullable = false)
-    private LocalDateTime timestamp;
+    @Column(name = "transaction_time", nullable = false)
+    private LocalDateTime timestamp; // Make sure this field is properly annotated
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
 }

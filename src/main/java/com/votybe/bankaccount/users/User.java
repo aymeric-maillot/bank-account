@@ -1,10 +1,14 @@
 package com.votybe.bankaccount.users;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.votybe.bankaccount.transactions.Transaction;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -23,4 +27,8 @@ public class User {
 
     @Column
     private String password;
+
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private List<Transaction> transactionHistory;
 }
