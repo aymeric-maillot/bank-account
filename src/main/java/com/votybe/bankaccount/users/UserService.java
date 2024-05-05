@@ -20,7 +20,6 @@ public class UserService {
     private final UserMapper userMapper;
 
     private final AccountRepository accountRepository;
-
     private final AccountMapper accountMapper;
 
     @Autowired
@@ -32,7 +31,7 @@ public class UserService {
     }
 
     public User createUser(String username, String password) {
-        if (userRepository.findByUsername(username) != null) {
+        if (userRepository.findByUsername(username).isPresent()) {
             throw new RuntimeException("L'utilisateur existe déjà");
         }
 
@@ -45,44 +44,36 @@ public class UserService {
     }
 
     public User getUserByUsername(String username) {
-        return userRepository.findByUsername(username);
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new EntityNotFoundException("Utilisateur non trouvé avec le nom d'utilisateur : " + username));
     }
 
     public Account createAccountForUser(String username, AccountRequest accountRequest) {
-        User user = userRepository.findByUsername(username);
-
-        if (user == null) {
-            throw new RuntimeException("Utilisateur non trouvé avec le nom d'utilisateur: " + username);
-        }
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new EntityNotFoundException("Utilisateur non trouvé avec le nom d'utilisateur : " + username));
 
         Account account = accountMapper.toAccount(accountRequest, user);
         return accountRepository.save(account);
     }
 
     public List<Account> getAllAccountsForUser(String username) {
-        User user = userRepository.findByUsername(username);
-        if (user != null) {
-            return accountRepository.findAllByUserId(user.getId());
-        } else {
-            throw new EntityNotFoundException("Utilisateur non trouvé avec le nom d'utilisateur : " + username);
-        }
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new EntityNotFoundException("Utilisateur non trouvé avec le nom d'utilisateur : " + username));
+
+        return accountRepository.findAllByUserId(user.getId());
     }
 
     public Account getAccountForUser(String username, Integer accountId) {
-        User user = userRepository.findByUsername(username);
-        if (user != null) {
-            return accountRepository.findSpecificAccountByUserId(user.getId(), accountId);
-        } else {
-            throw new EntityNotFoundException("Utilisateur non trouvé avec le nom d'utilisateur : " + username);
-        }
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new EntityNotFoundException("Utilisateur non trouvé avec le nom d'utilisateur : " + username));
+
+        return accountRepository.findSpecificAccountByUserId(user.getId(), accountId);
     }
 
     public List<Transaction> getTransactionHistoryForUser(String username) {
-        User user = userRepository.findByUsername(username);
-        if (user != null) {
-            return user.getTransactionHistory();
-        } else {
-            throw new EntityNotFoundException("Utilisateur non trouvé avec le nom d'utilisateur : " + username);
-        }
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new EntityNotFoundException("Utilisateur non trouvé avec le nom d'utilisateur : " + username));
+
+        return user.getTransactionHistory();
     }
 }
