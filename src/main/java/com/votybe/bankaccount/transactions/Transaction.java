@@ -29,10 +29,9 @@ public class Transaction {
     private double amount;
 
     @Column(name = "transaction_time", nullable = false)
-    private LocalDateTime timestamp; // Make sure this field is properly annotated
+    private LocalDateTime timestamp;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-
 }

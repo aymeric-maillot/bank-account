@@ -27,4 +27,7 @@ public class Account {
     private String accountName;
 
     private double balance;
+
+    @Column(nullable = false)
+    private String currency;
 }

@@ -10,6 +10,7 @@ public class AccountMapper {
         return Account.builder()
                 .user(user)
                 .accountName(request.accountName())
+                .currency(request.currency())
                 .balance(request.balance())
                 .build();
     }

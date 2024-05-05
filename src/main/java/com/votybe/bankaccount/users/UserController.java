@@ -33,7 +33,7 @@ public class UserController {
             User createdUser = userService.createUser(request.username(), request.password());
             return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.badRequest().build();
         }
     }
 
@@ -53,7 +53,7 @@ public class UserController {
             Account createdAccount = userService.createAccountForUser(username, accountRequest);
             return ResponseEntity.status(HttpStatus.CREATED).body(createdAccount);
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.badRequest().build();
         }
     }
 

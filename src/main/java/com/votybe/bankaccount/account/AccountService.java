@@ -22,6 +22,7 @@ public class AccountService {
             throw new RuntimeException("Le montant doit être supérieur à 0.");
         }
 
+        
         account.setBalance(account.getBalance() + amount);
 
         accountRepository.save(account);
@@ -38,6 +39,7 @@ public class AccountService {
             throw new RuntimeException("Solde insuffisant pour retirer " + amount + "€.");
         }
 
+        account.setCurrency(account.getCurrency());
         account.setBalance(account.getBalance() - amount);
 
         accountRepository.save(account);

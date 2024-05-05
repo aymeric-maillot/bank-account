@@ -8,3 +8,8 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: update
+
+api:
+  exchange:
+    key: 21408f48185cf792dba37191
+    base-url: https://v6.exchangerate-api.com/v6/
